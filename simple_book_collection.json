@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e4850e05-7fe8-4c4d-9cf3-72a37870decd",
+		"_postman_id": "49feb33d-ff52-4b69-94dc-e0dd37b89066",
 		"name": "Simple Book API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25788415"
@@ -66,7 +66,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/books?type=fiction&limit=2",
+					"raw": "{{baseUrl}}/books?type=fiction&limit=4",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -80,7 +80,7 @@
 						},
 						{
 							"key": "limit",
-							"value": "2"
+							"value": "4"
 						}
 					]
 				}
