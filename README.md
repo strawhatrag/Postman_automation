@@ -3,6 +3,6 @@ To access the live project, please visit: http://34.93.206.118:8080/job/Postman_
 
 Login credentials:
 
-Username: admin
+Username: `admin`
 
-Password: toor
+Password: `toor`
