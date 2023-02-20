@@ -66,7 +66,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/books?type=fiction&limit=4",
+					"raw": "{{baseUrl}}/books?type=fiction&limit=2",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -80,7 +80,7 @@
 						},
 						{
 							"key": "limit",
-							"value": "4"
+							"value": "2"
 						}
 					]
 				}
