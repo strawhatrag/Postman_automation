@@ -7,6 +7,44 @@
 	},
 	"item": [
 		{
+			"name": "register api client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"rag\",\r\n   \"clientEmail\": \"{{$randomFirstName}}@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api-clients",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api-clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "list of books",
 			"event": [
 				{
@@ -17,13 +55,8 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"const response = pm.response.json();\r",
 							"\r",
-							"const nonFictionBooks = response.filter((book) => book.availabe === true)\r",
-							"\r",
-							"console.log(nonFictionBooks[0])\r",
-							"\r",
-							"pm.globals.set(\"bookId\", nonFictionBooks[0]);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -56,6 +89,27 @@
 		},
 		{
 			"name": "get single book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"Book fetched successfully\", function (){\r",
+							"\r",
+							"    response.name == \"The Russian\";\r",
+							"\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -86,6 +140,22 @@
 		},
 		{
 			"name": "order book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.environment.set(\"orderId\", jsonData.orderId);\r",
+							"\r",
+							"pm.test(\"New order placed\", function(){\r",
+							"    jsonData.orderId != null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -121,46 +191,25 @@
 			"response": []
 		},
 		{
-			"name": "get all book orders",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+			"name": "get  order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"\r",
+							"var id = pm.environment.get(\"orderId\");\r",
+							"pm.test(\"Order was verified\", function (){\r",
+							"\r",
+							"    response.orderId == id;\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
 					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/orders",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"orders"
-					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all one order",
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -207,6 +256,17 @@
 		},
 		{
 			"name": "update order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -249,7 +309,27 @@
 			"response": []
 		},
 		{
-			"name": "delete order",
+			"name": "get update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"customerName was updated to john wick !\", function (){\r",
+							"\r",
+							"    response.customerName == \"john wick\";\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -261,11 +341,11 @@
 						}
 					]
 				},
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"bookId\": 1,\r\n    \"customerName\": \"John\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -290,34 +370,18 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "register api client",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n   \"clientName\": \"rag\",\r\n   \"clientEmail\": \"rag1@example.com\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/api-clients",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"api-clients"
-					]
-				}
-			},
-			"response": []
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
